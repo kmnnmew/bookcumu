@@ -1,0 +1,69 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #f4f4f4;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between; /* 왼쪽: 프로필, 오른쪽: 네비게이션 */
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px; /* 이름과의 간격 */
+}
+
+.profile-name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #000000;
+  text-decoration-line: none;
+}
+
+.button {
+  margin-left: 10px;
+  text-decoration: none;
+  color: white;
+  background-color: #007BFF;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+.intro {
+  padding: 20px;
+  text-align: center;
+  background-color: #eef;
+}
+
+.recommendations {
+  padding: 20px;
+  text-align: center;
+}
+
+.slider {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.book {
+  background-color: #ddd;
+  padding: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.book:hover {
+  background-color: #ccc;
+}

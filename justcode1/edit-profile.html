@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>정보 수정</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>정보 수정</h1>
+  </header>
+  <main>
+    <section class="profile-edit">
+      <form id="edit-form">
+        <!-- 프로필 사진 업로드 -->
+        <div class="profile-photo">
+          <img id="profile-img" class="profile-img" src="default-avatar.png" alt="프로필 사진">
+          <input type="file" id="profile-img-input" accept="image/*" style="display: none;">
+          <br>
+          <button type="button" id="upload-btn">사진 선택</button>
+        </div>
+        
+        <label for="new-username">새 아이디:</label>
+        <input type="text" id="new-username" placeholder="새로운 아이디를 입력하세요" required />
+        <br>
+
+        <label for="new-password">새 비밀번호:</label>
+        <input type="password" id="new-password" placeholder="새로운 비밀번호를 입력하세요" required />
+        <br>
+
+        <label for="new-email">새 이메일:</label>
+        <input type="email" id="new-email" placeholder="새로운 이메일을 입력하세요" required />
+        <br>
+
+        <button type="submit">수정</button>
+      </form>
+      
+      <!-- 회원 탈퇴 버튼 추가 -->
+      <button type="button" id="withdraw-btn" style="margin-top:20px; background-color: #f44336; color: white;">회원 탈퇴</button>
+    </section>
+  </main>
+
+  <script>
+    // 📌 HTML 요소 가져오기
+    const editForm = document.getElementById('edit-form');
+    const newUsernameInput = document.getElementById('new-username');
+    const newPasswordInput = document.getElementById('new-password');
+    const newEmailInput = document.getElementById('new-email');
+    const profileImg = document.getElementById('profile-img');
+    const profileImgInput = document.getElementById('profile-img-input');
+    const uploadBtn = document.getElementById('upload-btn');
+    const withdrawBtn = document.getElementById('withdraw-btn'); // 회원 탈퇴 버튼
+
+    // 📌 로그인된 사용자 정보 가져오기
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    if (!currentUser) {
+      alert('로그인된 사용자가 없습니다.');
+      window.location.href = 'login.html'; // 로그인 페이지로 리다이렉트
+    } else {
+      console.log("현재 사용자 정보:", currentUser); // 디버깅 로그 추가
+
+      // 기존 정보 입력란에 표시
+      newUsernameInput.value = currentUser.username;
+      newPasswordInput.value = currentUser.password;
+      newEmailInput.value = currentUser.email;
+      profileImg.src = currentUser.profileImg || "default-avatar.png"; // 저장된 프로필 이미지 표시
+    }
+
+    // 📌 프로필 사진 업로드 버튼 클릭 시 파일 선택창 열기
+    uploadBtn.addEventListener('click', () => {
+      profileImgInput.click();
+    });
+
+    // 📌 프로필 사진 변경 이벤트 처리
+    profileImgInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+
+      if (!file) return;
+
+      if (file.size > 2 * 1024 * 1024) { // 2MB 제한
+        alert("파일 크기가 너무 큽니다. (최대 2MB)");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const newProfileImg = e.target.result;
+        profileImg.src = newProfileImg; // 미리보기 이미지 변경
+        currentUser.profileImg = newProfileImg; // 현재 사용자 정보 업데이트
+        localStorage.setItem('currentUser', JSON.stringify(currentUser)); // 저장
+        console.log("프로필 이미지 저장 완료!"); // 디버깅 로그
+      };
+
+      reader.readAsDataURL(file);
+    });
+
+    // 📌 정보 수정 폼 제출 이벤트
+    editForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const newUsername = newUsernameInput.value.trim();
+      const newPassword = newPasswordInput.value.trim();
+      const newEmail = newEmailInput.value.trim();
+
+      if (newUsername === '' || newPassword === '' || newEmail === '') {
+        alert('모든 필드를 입력해주세요.');
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+
+      // 기존 아이디를 기준으로 사용자 찾기
+      const userIndex = users.findIndex(user => user.username === currentUser.username);
+
+      if (userIndex !== -1) {
+        // users 배열에서 사용자 정보 수정
+        users[userIndex] = {
+          username: newUsername,
+          password: newPassword,
+          email: newEmail,
+          profileImg: currentUser.profileImg || "default-avatar.png" // 프로필 이미지 저장
+        };
+
+        localStorage.setItem('users', JSON.stringify(users)); // 수정된 users 배열 저장
+
+        // currentUser 업데이트
+        currentUser.username = newUsername;
+        currentUser.password = newPassword;
+        currentUser.email = newEmail;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser)); // 수정된 currentUser 저장
+
+        alert('정보가 성공적으로 수정되었습니다!');
+        window.location.href = 'home.html'; // 수정 후 홈 페이지로 이동
+      } else {
+        alert('현재 사용자 정보를 찾을 수 없습니다.');
+      }
+    });
+
+    // 📌 회원 탈퇴 기능 구현
+    withdrawBtn.addEventListener('click', () => {
+      // 탈퇴 진행 전 비밀번호 확인 (prompt로 입력받음)
+      const inputPassword = prompt("회원 탈퇴를 진행하려면 비밀번호를 입력해주세요.");
+      if (inputPassword === null) {
+        // 사용자가 취소한 경우
+        return;
+      }
+
+      // 입력받은 비밀번호와 현재 사용자의 비밀번호가 일치하는지 확인
+      if (inputPassword !== currentUser.password) {
+        alert("비밀번호가 일치하지 않습니다. 탈퇴가 취소되었습니다.");
+        return;
+      }
+
+      // users 배열에서 해당 사용자를 제거
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      users = users.filter(user => user.username !== currentUser.username);
+      localStorage.setItem('users', JSON.stringify(users));
+
+      // currentUser 제거
+      localStorage.removeItem('currentUser');
+
+      alert("회원 탈퇴가 완료되었습니다.");
+      window.location.href = 'signup.html'; // 탈퇴 후 회원가입 페이지(또는 로그인 페이지)로 이동
+    });
+  </script>
+
+</body>
+</html>

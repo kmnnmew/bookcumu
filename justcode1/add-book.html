@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>책 추가</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="home.html" class="button">홈</a>
+    </nav>
+  </header>
+  <main>
+    <section class="add-book-form">
+      <h1>책 추가</h1>
+      <form id="add-book-form">
+        <input type="text" id="title" placeholder="책 제목" required>
+        <input type="text" id="author" placeholder="저자" required>
+        <input type="text" id="publisher" placeholder="출판사" required>
+        <input type="number" id="year" placeholder="출판 연도" required>
+        <textarea id="description" placeholder="책 설명" required></textarea>
+        
+        <!-- 이미지 업로드 추가 -->
+        <input type="file" id="book-image" accept="image/*">
+        <div id="image-preview">
+          <img id="preview-img" src="" alt="미리 보기 이미지" style="display: none; max-width: 200px;">
+        </div>
+      
+        <button type="submit">책 추가</button>
+      </form>
+      
+    </section>
+  </main>
+  <script src="add-book.js"></script>
+</body>
+</html>

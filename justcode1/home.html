@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>홈페이지</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="profile">
+      <!-- 프로필 사진 -->
+      <img id="profile-img" class="profile-pic" src="default_profile.png" alt="프로필 사진">
+      
+      <!-- 프로필 이름을 클릭하면 아이디 수정 페이지로 이동 -->
+      <a href="edit-profile.html" class="profile-name" id="profile-name"></a>
+    </div>
+
+    <nav>
+      <a href="#" class="button" id="logout-btn">로그아웃</a>
+      <a href="add-book.html" class="button">책 추가</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h1>좋은 책을 발견하고, 함께 리뷰를 나눠보세요!</h1>
+    </section>
+    <section class="recommendations">
+      <h2>추천 책</h2>
+      <div id="book-list" class="slider"></div>
+    </section>
+  </main>
+
+  <script src="home.js"></script> <!-- home.js에서 프로필 로직 관리 -->
+</body>
+</html>

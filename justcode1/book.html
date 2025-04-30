@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>책 소개</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="home.html" class="button">홈</a>
+    </nav>
+  </header>
+  <main>
+    <section class="book-detail">
+      <h1 id="book-title"></h1>
+      <!-- 📌 책 이미지 추가 -->
+      <img id="book-image" src="" alt="책 이미지" style="display: none; max-width: 200px; margin-bottom: 15px;">
+      
+      <p id="book-author"></p>
+      <p id="book-publisher"></p>
+      <p id="book-year"></p>
+      <p id="book-description"></p>
+      <!-- 수정/삭제 버튼은 JS에서 동적으로 추가됩니다 -->
+    </section>
+
+    <section class="reviews">
+      <h2>리뷰</h2>
+      <ul id="review-list"></ul>
+      <div id="review-form-container">
+        <textarea id="review-content" placeholder="리뷰를 작성하세요..." rows="4"></textarea>
+        <button id="submit-review">리뷰 작성</button>
+      </div>
+    </section>
+  </main>
+  <script src="book.js"></script>
+</body>
+</html>
